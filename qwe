@@ -1,8 +1,8 @@
-Рассчитываем ip-адресы сети согласно условиям
+Rasschityvaem ip-adresy seti soglasno usloviyam
 
-Имя устройства
-IP-адрес
-Шлюз по умолчанию
+Imya ustroistva
+IP-adres
+Shlyuz po umolchaniyu
 
 ISP
 dhcp
@@ -59,96 +59,96 @@ BR-SRV
 
 
 
-1. Переименовать компьютеры
+1. Pereimenovat kompyutery
 
-Для смены имени устройства используется утилита hostnamectl ввод команды (рис. 1.1): 
-hostnamectl set-hostname НОВОЕ_ИМЯ_УСТРОЙСТВА; exec bash – ввод (Enter)
-Рис. 1.1
-ВСЕ УСТРОЙСТВА кроме isp ИМЕНА ПРИСВАИВАЮТСЯ С ДОМЕННЫМ  рис.1.2 (дан в задании «au-team.irpo»)  СУФФИКСОМ КРОМЕ ISP!!!!!
-Рис. 1.2
-Имя устройства изменено.
-Данную операцию необходимо сделать на всех устройствах!
+Dlya smeny imeni ustroistva ispolzuetsya utilita hostnamectl vvod komandy (ris. 1.1): 
+hostnamectl set-hostname NOVOE_IMYa_USTROISTVA; exec bash – vvod (Enter)
+Ris. 1.1
+VSE USTROISTVA krome isp IMENA PRISVAIVAYuTSYa S DOMENNYM  ris.1.2 (dan v zadanii «au-team.irpo»)  SUFFIKSOM KROME ISP!!!!!
+Ris. 1.2
+Imya ustroistva izmeneno.
+Dannuyu operatsiyu neobkhodimo sdelat na vsekh ustroistvakh!
 
-2. Настройка интернет интерфейсов (на ISP, HQ-R, BR-R)
-1) Проверить название и МАК адреса на соответствие с сетевыми картами, с помощью команды ip a (рис. 2.1): 
-ip -c a – ввод (Enter)
-Рис. 2.1
-ens20 - название интерфейса.
-bc:24:11:13:9d:39 - MAK-адрес
+2. Nastroika internet interfeisov (na ISP, HQ-R, BR-R)
+1) Proverit nazvanie i MAK adresa na sootvetstvie s setevymi kartami, s pomoshchyu komandy ip a (ris. 2.1): 
+ip -c a – vvod (Enter)
+Ris. 2.1
+ens20 - nazvanie interfeisa.
+bc:24:11:13:9d:39 - MAK-adres
 
-2) Для настройки с ip-адресов используем редактор текста vim (nano)
-Вариант настройки 1:	
-открываем файл настройки ip-адреса (рис.2.2):
+2) Dlya nastroiki s ip-adresov ispolzuem redaktor teksta vim (nano)
+Variant nastroiki 1:	
+otkryvaem fail nastroiki ip-adresa (ris.2.2):
 vim /etc/net/ifaces/ens20/ipv4address
 
-Рис. 2.2
-	б) задаем ip-адрес и маской в открывшемся файле(рис.2.3):
+Ris. 2.2
+	b) zadaem ip-adres i maskoi v otkryvshemsya faile(ris.2.3):
 172.16.1.14/28
-	Рис.2.3
-	в) сохраняем файл.
-	В vim рис 2.4: 
+	Ris.2.3
+	v) sokhranyaem fail.
+	V vim ris 2.4: 
 shift+:     wq
-рис 2.4		
-	В nano:
+ris 2.4		
+	V nano:
  ctrl+o, - enter, 
-ctrl+x — выход
+ctrl+x — vykhod
 
-Вариант настройки 2
-помощью команды echo рис. 2.5: 
+Variant nastroiki 2
+pomoshchyu komandy echo ris. 2.5: 
 echo `172.16.2.14/28` > /etc/net/ifaces/ens21/ipv4address
-рис.2.5
+ris.2.5
 
-	На устройствах где требуется прописываем шлюз в конфигурационном файле интерфейса направленного во внешнею сеть (на всех устройствах за исключением ISP)
-открываем файл настройки ip-адреса (рис.2.6):
-Вариант настройки 
+	Na ustroistvakh gde trebuetsya propisyvaem shlyuz v konfiguratsionnom faile interfeisa napravlennogo vo vneshneyu set (na vsekh ustroistvakh za isklyucheniem ISP)
+otkryvaem fail nastroiki ip-adresa (ris.2.6):
+Variant nastroiki 
 vim /etc/net/ifaces/ens19/ipv4route
-Рис. 2.6
-	б) задаем ip-адрес шлюза в открывшемся файле(рис.2.7):
+Ris. 2.6
+	b) zadaem ip-adres shlyuza v otkryvshemsya faile(ris.2.7):
 default via 172.16.1.14
-Рис.2.7
-		в) сохраняем файл.
+Ris.2.7
+		v) sokhranyaem fail.
 		vim: shift+: wq
 
 		nano: ctrl+o, enter, 
-		ctrl+x - выход
+		ctrl+x - vykhod
 
-Вариант настройки 2 
-помощью команды echo рис. 2.8: 
+Variant nastroiki 2 
+pomoshchyu komandy echo ris. 2.8: 
 echo `default via 172.16.1.14` > /etc/net/ifaces/ens19/ipv4route
-Рис. 2.8
-Перезапускаем службу network (рис.2.9)
+Ris. 2.8
+Perezapuskaem sluzhbu network (ris.2.9)
 systemctl restart network
-Рисунок 2.9
+Risunok 2.9
 
-Проверяем настройку командой ip -c -br a (рис. 2.10).
-ip -с -br a – ввод (Enter)
-ip -с -br r – ввод (Enter)
-Рис.2.10
+Proveryaem nastroiku komandoi ip -c -br a (ris. 2.10).
+ip -s -br a – vvod (Enter)
+ip -s -br r – vvod (Enter)
+Ris.2.10
 
-Настройка адаптеров завершена.
+Nastroika adapterov zavershena.
 
-!!!НА HQ-RTR настраиваем только интерфейс смотрящий на ISP!!!!!!!
+!!!NA HQ-RTR nastraivaem tolko interfeis smotryashchii na ISP!!!!!!!
 
-Проделываем данную операцию со всеми интерфейсами (кроме HQ-RTR на нем только 1 интерфейс ens19)! На всех устройствах.
+Prodelyvaem dannuyu operatsiyu so vsemi interfeisami (krome HQ-RTR na nem tolko 1 interfeis ens19)! Na vsekh ustroistvakh.
 
-3. Включение прослушивания портов маршрутизации маршрутизаторах
-Включаем forwarding для IPv4 посредством редактирования файла по пути /etc/net/sysctl.conf (рис. 3.1):
+3. Vklyuchenie proslushivaniya portov marshrutizatsii marshrutizatorakh
+Vklyuchaem forwarding dlya IPv4 posredstvom redaktirovaniya faila po puti /etc/net/sysctl.conf (ris. 3.1):
 
-nano /etc/net/sysctl.conf – ввод (Enter)
+nano /etc/net/sysctl.conf – vvod (Enter)
 
-Рис. 3.1
-меняем параметр net.ipv4.ip_forward=0 на 1. (рис. 3.2).
-Рис. 3.2
-сохраняем изменения ctrl+o, enter.
-Выходим ctrl+x.
-Вводим команду sysctl -p.
+Ris. 3.1
+menyaem parametr net.ipv4.ip_forward=0 na 1. (ris. 3.2).
+Ris. 3.2
+sokhranyaem izmeneniya ctrl+o, enter.
+Vykhodim ctrl+x.
+Vvodim komandu sysctl -p.
 
 
-4. Выполняется для настройки доступа в Интернет из сетей (настраивается на ISP, HQ-R и BR-R):
-Необходимо настроить файл конфигурации находящийся по адресу /etc/nftables/nftables.nft (рис. 4.1):
-vim (или nano) /etc/nftables/nftables.nft   – ввод (Enter)
-Рис. 4.1
-Далее необходимо добавить следующие таблицы и параметры (рис 4.2), ens19 интерфейс смотрящий во внешнею сеть:
+4. Vypolnyaetsya dlya nastroiki dostupa v Internet iz setei (nastraivaetsya na ISP, HQ-R i BR-R):
+Neobkhodimo nastroit fail konfiguratsii nakhodyashchiisya po adresu /etc/nftables/nftables.nft (ris. 4.1):
+vim (ili nano) /etc/nftables/nftables.nft   – vvod (Enter)
+Ris. 4.1
+Dalee neobkhodimo dobavit sleduyushchie tablitsy i parametry (ris 4.2), ens19 interfeis smotryashchii vo vneshneyu set:
 
 table inet nat {
 	chain postrouting {
@@ -157,20 +157,20 @@ table inet nat {
 		}
 }
 
-Рис. 4.2
+Ris. 4.2
 
-Включаем и добавляем в автозагрузку службу nftables (рис. 4.3):
-systemctl enable --now nftables  – ввод (Enter)
-Рис. 4.3
-Настраиваем по аналогии на HQ-R и BR-R!
+Vklyuchaem i dobavlyaem v avtozagruzku sluzhbu nftables (ris. 4.3):
+systemctl enable --now nftables  – vvod (Enter)
+Ris. 4.3
+Nastraivaem po analogii na HQ-R i BR-R!
 
-5. Настройка VLAN (ТОЛЬКО НА HQ-RTR)!!!
-Добавляем в автозагрузку и запускаем (рис. 5.2)
+5. Nastroika VLAN (TOLKO NA HQ-RTR)!!!
+Dobavlyaem v avtozagruzku i zapuskaem (ris. 5.2)
 systemctl enable --now openvswitch
 systemctl enable --now NetworkManager
 
-Рис.5.2
-Создаем мост (виртуальный коммутатор) hq-sw, Добавляем порт ens20 к hq-sw и назначаем ему vlan100, Добавляем порт ens21 к hq-sw и назначаем ему vlan200, Добавляем порт ens22 к hq-sw и назначаем ему vlan999, Добавляем внутренний порт vlan100,  vlan200, vlan999 к мосту hq-sw (рис. 5.3).
+Ris.5.2
+Sozdaem most (virtualnyi kommutator) hq-sw, Dobavlyaem port ens20 k hq-sw i naznachaem emu vlan100, Dobavlyaem port ens21 k hq-sw i naznachaem emu vlan200, Dobavlyaem port ens22 k hq-sw i naznachaem emu vlan999, Dobavlyaem vnutrennii port vlan100,  vlan200, vlan999 k mostu hq-sw (ris. 5.3).
 
 ovs-vsctl add-br hq-sw
 ovs-vsctl add-port hq-sw ens20  tag=100
@@ -180,36 +180,36 @@ ovs-vsctl add-port hq-sw vlan100 tag=100 -- set interface vlan100 type=internal
 ovs-vsctl add-port hq-sw vlan200 tag=200 -- set interface vlan200 type=internal
 ovs-vsctl add-port hq-sw vlan999 tag=999 -- set interface vlan999 type=internal
 
-Рис.5.3
+Ris.5.3
 
-Перезагружаем openvswitch и NetworkManager (рис.5.4)
+Perezagruzhaem openvswitch i NetworkManager (ris.5.4)
 systemctl restart openvswitch
 systemctl restart NetworkManager
-Рис.5.4
-Включаем мост (рис. 5.6)
+Ris.5.4
+Vklyuchaem most (ris. 5.6)
  ip link set hq-sw up
-Рис.5.6
-Создаем скрипт для настройки и восстановления настройки ip-адресов VLAN после перезагрузки!!!
-создаем скрипт
+Ris.5.6
+Sozdaem skript dlya nastroiki i vosstanovleniya nastroiki ip-adresov VLAN posle perezagruzki!!!
+sozdaem skript
 nano ip.sh  
 
-пишем текст скрипта:
+pishem tekst skripta:
 #!/bin/bash/
 ip a add 192.168.0.62/26 dev vlan100
 ip a add 192.168.0.78/28 dev vlan200
 ip a add 192.168.0.86/29 dev vlan999
-заходим добавляем запуск при загрузке
+zakhodim dobavlyaem zapusk pri zagruzke
 nano `/.bashrc
-добавляем строчку, и сохраняем.
+dobavlyaem strochku, i sokhranyaem.
 bash ip.sh
 
-Запускаем скрипт
+Zapuskaem skript
 bash ip.sh
 
-Внимание!!!! при перезагрузки службы NM настройка IP слетают необходимо необходимо в ручную запустить скрипт ip.sh или перегрузить ПК.
+Vnimanie!!!! pri perezagruzki sluzhby NM nastroika IP sletayut neobkhodimo neobkhodimo v ruchnuyu zapustit skript ip.sh ili peregruzit PK.
 
-6.  Настройте локальные учётные записи на устройствах в соответствии с заданием (на серверах пользователь sshuser c id 1010, на маршрутизаторах net_admin)
-Cервера (рис.6.1)
+6.  Nastroite lokalnye uchetnye zapisi na ustroistvakh v sootvetstvii s zadaniem (na serverakh polzovatel sshuser c id 1010, na marshrutizatorakh net_admin)
+Cervera (ris.6.1)
 adduser sshuser -u 2026
 passwd sshuser
 P@ssw0rd
@@ -217,121 +217,121 @@ P@ssw0rd
 usermod -aG wheel sshuser
 echo "sshuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-рис.6.1
-Маршрутизатор (рис.6.2)
+ris.6.1
+Marshrutizator (ris.6.2)
 adduser net_admin
 passwd net_admin 
 P@$$word
 P@$$word
 usermod -aG wheel net_admin
 echo "net_admin ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
-Рис. 6.2
+Ris. 6.2
 
-6. Настраиваем GRE-туннель между HQ-R и BR-R
+6. Nastraivaem GRE-tunnel mezhdu HQ-R i BR-R
 
-запускаем настройку интерфейсов командой nmtui (рис. 6.1):
-nmtui – ввод (Enter)
-Рис. 6.1
+zapuskaem nastroiku interfeisov komandoi nmtui (ris. 6.1):
+nmtui – vvod (Enter)
+Ris. 6.1
 
-Выбираем "Edit a connection" (рис. 6.2):
-Рис. 6.2
+Vybiraem "Edit a connection" (ris. 6.2):
+Ris. 6.2
 
-Выбираем "Add" (рис.6.3):
-Рис. 6.3
+Vybiraem "Add" (ris.6.3):
+Ris. 6.3
 
-Выбираем "IP tunnel" (рис. 6.4):
-Рис. 6.4
-Задаём имя тунеля tun1 -> в "Режим работы" выбираем "GRE" -> в "Родительский" указываем интерфейс ens19 (в сторону ISP) -> задаём "Локальный IP" -> задаём "Удалённый IP" , Переходим к  конфигурации IPv4 , задаём параметр “Manual” прописываем адреса IPv4 для туннеля -> нажимаем "ОК"  (рис. 6.5):
+Vybiraem "IP tunnel" (ris. 6.4):
+Ris. 6.4
+Zadaem imya tunelya tun1 -> v "Rezhim raboty" vybiraem "GRE" -> v "Roditelskii" ukazyvaem interfeis ens19 (v storonu ISP) -> zadaem "Lokalnyi IP" -> zadaem "Udalennyi IP" , Perekhodim k  konfiguratsii IPv4 , zadaem parametr “Manual” propisyvaem adresa IPv4 dlya tunnelya -> nazhimaem "OK"  (ris. 6.5):
 
-Рис. 6.5
+Ris. 6.5
 
 
 
-Выходим из редактирования туннеля «<Back>» (рис. 5.7)
-Рис. 5.7
+Vykhodim iz redaktirovaniya tunnelya «<Back>» (ris. 5.7)
+Ris. 5.7
 
-заходим в раздел «Activete a connection» (рис. 5.8)
-Рис. 5.8
+zakhodim v razdel «Activete a connection» (ris. 5.8)
+Ris. 5.8
 
-Выбираем туннель tun1 (параметр стоит «Deactivate») и нажимаем enter, выберем снова tun1  (*параметр стоит «Activate») и нажимаем enter (рис. 5.9)
-Рис. 5.9
-Выходим из раздела «<Back>”.
-Для корректной работы протокола динамической маршрутизации требуется увеличить параметр TTL на интерфейсе туннеля используется команда (рис. 6.10):
-nmcli connection modify tun1 ip-tunnel.ttl 64  – ввод (Enter)
+Vybiraem tunnel tun1 (parametr stoit «Deactivate») i nazhimaem enter, vyberem snova tun1  (*parametr stoit «Activate») i nazhimaem enter (ris. 5.9)
+Ris. 5.9
+Vykhodim iz razdela «<Back>”.
+Dlya korrektnoi raboty protokola dinamicheskoi marshrutizatsii trebuetsya uvelichit parametr TTL na interfeise tunnelya ispolzuetsya komanda (ris. 6.10):
+nmcli connection modify tun1 ip-tunnel.ttl 64  – vvod (Enter)
 
-Рис.6.10
-	Настройка динамической (внутренней) маршрутизации средствами frr.
+Ris.6.10
+	Nastroika dinamicheskoi (vnutrennei) marshrutizatsii sredstvami frr.
 
-В конфигурационном файле "/etc/frr/daemons" (рис.6.11) необходимо активировать выбранный протокол OSPFv2. Переводим ospfd=no в ospfd=yes - для OSPFv2 (IPv4).
+V konfiguratsionnom faile "/etc/frr/daemons" (ris.6.11) neobkhodimo aktivirovat vybrannyi protokol OSPFv2. Perevodim ospfd=no v ospfd=yes - dlya OSPFv2 (IPv4).
 
-nano /etc/frr/daemons   – ввод (Enter)
+nano /etc/frr/daemons   – vvod (Enter)
 
-Рис. 6.11
-Сохраняем конфигурацию.
+Ris. 6.11
+Sokhranyaem konfiguratsiyu.
 
-Включаем и добавляем в автозагрузку службу frr (рис. 5.12)
-systemctl enable --now frr  – ввод (Enter)
+Vklyuchaem i dobavlyaem v avtozagruzku sluzhbu frr (ris. 5.12)
+systemctl enable --now frr  – vvod (Enter)
 
-Рис.5.12
+Ris.5.12
 
-Настраиваем OSPFv2 - переходим в интерфейс frr при помощи "vtysh" (рис. 5.13):
+Nastraivaem OSPFv2 - perekhodim v interfeis frr pri pomoshchi "vtysh" (ris. 5.13):
 
-vtysh – ввод (Enter)
-Рис. 5.13
+vtysh – vvod (Enter)
+Ris. 5.13
 
-переходим в режим конфигурирования (рис. 6.14) conf t – ввод (Enter). Командой router ospf переходим в конфигурирования протакола OSPFv2, переводим все интерфейсы в пассивный режим командой passive-interface default 
-conf t – ввод (Enter)
-route ospf – ввод (Enter)
-passive-interface default – ввод (Enter)
-network 10.5.5.0/30 area 0 – ввод (Enter), адрес сети тунеля
-network 192.168.0.0/26 area 0 – ввод (Enter), адрес сети (внутренней сети в сторану HQ-SRV)
-network 192.168.0.64/28 area 0 – ввод (Enter), адрес сети (внутренней сети в сторану HQ-CLI)
-network 192.168.0.80/29area 0 – ввод (Enter), адрес сети (внутренней сети в сторану SW)
-area 0 authentication – ввод (Enter) Настройка аутентификации для области
-ex – ввод (Enter)
-Переходим в конфигурацию тунеля (рис. 5.14), сохраняем настройку  командой wr.
-interface tun1 – ввод (Enter)
-no ospf network broadcast – ввод (Enter)
-no ip ospf passive – ввод (Enter)
-ip ospf authentication – ввод (Enter) Настройка аутентификации 
-ip ospf authentication-key P@ssw0rd  – ввод (Enter) задаем пароль P@ssw0rd
-ex – ввод (Enter)
-ex – ввод (Enter)
-wr – ввод (Enter)
-Рис. 5.14
-Выходим из vtysh 
-ex – ввод (Enter)
-Перезапускаем FRR
+perekhodim v rezhim konfigurirovaniya (ris. 6.14) conf t – vvod (Enter). Komandoi router ospf perekhodim v konfigurirovaniya protakola OSPFv2, perevodim vse interfeisy v passivnyi rezhim komandoi passive-interface default 
+conf t – vvod (Enter)
+route ospf – vvod (Enter)
+passive-interface default – vvod (Enter)
+network 10.5.5.0/30 area 0 – vvod (Enter), adres seti tunelya
+network 192.168.0.0/26 area 0 – vvod (Enter), adres seti (vnutrennei seti v storanu HQ-SRV)
+network 192.168.0.64/28 area 0 – vvod (Enter), adres seti (vnutrennei seti v storanu HQ-CLI)
+network 192.168.0.80/29area 0 – vvod (Enter), adres seti (vnutrennei seti v storanu SW)
+area 0 authentication – vvod (Enter) Nastroika autentifikatsii dlya oblasti
+ex – vvod (Enter)
+Perekhodim v konfiguratsiyu tunelya (ris. 5.14), sokhranyaem nastroiku  komandoi wr.
+interface tun1 – vvod (Enter)
+no ospf network broadcast – vvod (Enter)
+no ip ospf passive – vvod (Enter)
+ip ospf authentication – vvod (Enter) Nastroika autentifikatsii 
+ip ospf authentication-key P@ssw0rd  – vvod (Enter) zadaem parol P@ssw0rd
+ex – vvod (Enter)
+ex – vvod (Enter)
+wr – vvod (Enter)
+Ris. 5.14
+Vykhodim iz vtysh 
+ex – vvod (Enter)
+Perezapuskaem FRR
 systemctl restart frr
-ПРИМЕЧАНИЕ!!! может потребоваться перезагрузка BR-RTR и HQ-RTR, после нее канал поднимится.
-Проверяем конфигурацию заходим во vtysh, если есть ip-адреса всех сетей со звездочкой  адреса удаленных подсетей (рис. 5.16):
-show ip route ospf – ввод (Enter)
-Рис. 5.17 а (br-rtr)
-Рис.5.17 б (hq-rtr)
-выходим из VTYSH командой ex.
-Проверяем маршрут с BR-SRV до HQ-SRV (рис. 5.19) через терминал :
-traceroute 192.168.0.1  – ввод (Enter)
-Рис. 5.19
-Настройка завершена.
-6 . Настройка DHCP-сервера для IPv4
-Укажим сетевой интерефейс для IPv4, через который будет работать DHCP-сервер
-nano /etc/sysconfig/dhcpd – ввод (Enter)
-В пункт DHCPDARGS= необходимо добавить имя сетевого интерфейса vlan200  смотрящий в локальную сеть офиса HQ (рис. 6.1):
-Рис. 6.1
-Сохраняем параметр и выходим.
-Следующим шагом настраиваем сервер:
-копируем настройки по умолчанию (рис.6.2)
+PRIMEChANIE!!! mozhet potrebovatsya perezagruzka BR-RTR i HQ-RTR, posle nee kanal podnimitsya.
+Proveryaem konfiguratsiyu zakhodim vo vtysh, esli est ip-adresa vsekh setei so zvezdochkoi  adresa udalennykh podsetei (ris. 5.16):
+show ip route ospf – vvod (Enter)
+Ris. 5.17 a (br-rtr)
+Ris.5.17 b (hq-rtr)
+vykhodim iz VTYSH komandoi ex.
+Proveryaem marshrut s BR-SRV do HQ-SRV (ris. 5.19) cherez terminal :
+traceroute 192.168.0.1  – vvod (Enter)
+Ris. 5.19
+Nastroika zavershena.
+6 . Nastroika DHCP-servera dlya IPv4
+Ukazhim setevoi interefeis dlya IPv4, cherez kotoryi budet rabotat DHCP-server
+nano /etc/sysconfig/dhcpd – vvod (Enter)
+V punkt DHCPDARGS= neobkhodimo dobavit imya setevogo interfeisa vlan200  smotryashchii v lokalnuyu set ofisa HQ (ris. 6.1):
+Ris. 6.1
+Sokhranyaem parametr i vykhodim.
+Sleduyushchim shagom nastraivaem server:
+kopiruem nastroiki po umolchaniyu (ris.6.2)
 
-cp /etc/dhcp/dhcpd.conf.example /etc/dhcp/dhcpd.conf   – ввод (Enter)
-подтверждаем
-y – ввод (Enter)
+cp /etc/dhcp/dhcpd.conf.example /etc/dhcp/dhcpd.conf   – vvod (Enter)
+podtverzhdaem
+y – vvod (Enter)
 
-Рис. 6.2
+Ris. 6.2
 
-Заходим в файл настройки
-nano /etc/dhcp/dhcpd.conf– ввод (Enter)
+Zakhodim v fail nastroiki
+nano /etc/dhcp/dhcpd.conf– vvod (Enter)
 
-Вносим параметры (рис. 6.3), остальные закоменчиваем:
+Vnosim parametry (ris. 6.3), ostalnye zakomenchivaem:
 
 subnet 192.168.0.64 netmask 255.255.255.240 {
   range 192.168.0.65 192.168.0.75;
@@ -341,9 +341,15 @@ subnet 192.168.0.64 netmask 255.255.255.240 {
   default-lease-time 6000;
   max-lease-time 7200
 }
-рис. 6.3
+ris. 6.3
 
-systemctl enable --now dhcpd – ввод (Enter)
+systemctl enable --now dhcpd – vvod (Enter)
+
+ Ris. 6.4
+
+Nastraivaem dinamicheskoe polucheniya ip-adresa na HQ-SRV (ris).
+Zakhodim na server i proveryaem poluchenyi ip-adres (ris. 6.5)
+ ip a – vvod (Entersystemctl enable --now dhcpd – ввод (Enter)
 
  Рис. 6.4
 
